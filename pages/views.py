@@ -1,19 +1,27 @@
 from django.shortcuts import render
 from django.views import View
-# Create your views here.
+from .models import Team
 
 
 class Home(View):
     template_name = 'home.html'
-    def get(self, request):
-        return render(request, self.template_name)
+    teams = Team.objects.all()
+    data = {
+        'teams': teams
+    }
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name, self.data)
 
 
 
 class About(View):
     template_name = 'about.html'
-    def get(self, request):
-        return render(request, self.template_name)
+    teams = Team.objects.all()
+    data = {
+        'teams': teams
+    }
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name, self.data)
 
 
 class Services(View):
