@@ -153,4 +153,4 @@ dmypy.json
 cython_debug/
 
 # Db details
-/dbsecretenv.json
+dbsecretenv.json

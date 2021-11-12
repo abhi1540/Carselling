@@ -1,13 +1,18 @@
 from django.shortcuts import render
 from django.views import View
 from .models import Team
+from cars.models import Car
 
 
 class Home(View):
     template_name = 'home.html'
     teams = Team.objects.all()
+    cars = Car.objects.order_by('-created_date').filter(is_featured=True)
+    latest_cars = Car.objects.order_by('-created_date')
     data = {
-        'teams': teams
+        'teams': teams,
+        'featured_car': cars,
+        'latest_cars' : latest_cars
     }
     def get(self, request, *args, **kwargs):
         return render(request, self.template_name, self.data)
