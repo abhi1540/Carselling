@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %} | Dashboard {% endblock %}
+{% block content %}
+{% load static %}
+
+<div class="sub-banner overview-bgi">
+    <div class="container breadcrumb-area">
+        <div class="breadcrumb-areas">
+            <h1>Login To Your Account</h1>
+            <ul class="breadcrumbs">
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li class="active">Login</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- Sub Banner end -->
+
+<!--   Dashboard Start   -->
+
+<div class="container mt-50 mb-50">
+
+	<div class="main-title" style="text-align:left !important;">
+            <h1>Welcome <span>User</span></h1>
+            <p>Here are the cars that you have inquired about</p>
+        </div>
+	{% include 'messages.html' %}
+
+	{% if user_inquiry %}
+	<table class="table table-hover">
+	  <thead>
+		<tr>
+		  <th scope="col">#</th>
+		  <th scope="col">Car Name</th>
+		  <th scope="col">Location</th>
+		</tr>
+	  </thead>
+	  <tbody>
+	  {% for inq in user_inquiry %}
+		<tr>
+		  <th scope="row">1</th>
+		  <td>{{inq.car_title}}</td>
+		  <td>{{inq.city}}</td>
+		  <td><a href="{% url 'car-details' inq.car_id %}" class="btn btn-outline-dark">View Car</a></td>
+		</tr>
+	  {% endfor %}
+	  </tbody>
+	</table>
+	{% else %}
+	<b> You Have no inqueries </b>
+	{% endif %}
+</div>
+
+<!--   Dashboard End   -->
+
+{% endblock %}
+
+

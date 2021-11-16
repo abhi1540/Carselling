@@ -1,7 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import View
 from .models import Team
 from cars.models import Car
+from django.core.mail import send_mail
+from django.contrib.auth.models import User
+from django.contrib import messages
 
 
 class Home(View):
@@ -50,3 +53,28 @@ class Contact(View):
     template_name = 'contact.html'
     def get(self, request):
         return render(request, self.template_name)
+
+
+    def post(self, request, **kwargs):
+        name = request.POST['name']
+        subject = request.POST['subject']
+        email = request.POST['email']
+        phone = request.POST['phone']
+        message = request.POST['message']
+
+
+        admin_info = User.objects.get(is_superuser=True)
+        admin_email = admin_info.email
+
+        send_mail(
+            'New Car Inquiry ' + subject,
+            message,
+            'abhisek1540@gmail.com',
+            [admin_email],
+            fail_silently=False
+        )
+
+        messages.success(request, "We Have Got Your Details!!! We Will Contact You Soon")
+
+
+        return redirect('contact')
